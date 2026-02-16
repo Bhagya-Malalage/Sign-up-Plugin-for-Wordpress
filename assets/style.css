@@ -1,4 +1,3 @@
-/* Full Screen Overlay Background */
 .yolo-overlay-wrapper {
   position: fixed;
   top: 0;
@@ -13,8 +12,6 @@
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
-
-/* The Popup Card */
 .yolo-card {
   background: #111;
   padding: 40px;
@@ -26,15 +23,9 @@
   position: relative;
   text-align: center;
   color: #fff;
-  font-family:
-    "Inter",
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif;
+  font-family: "Inter", sans-serif;
   box-sizing: border-box;
 }
-
-/* Close Button */
 .yolo-close-overlay {
   position: absolute;
   top: 20px;
@@ -46,14 +37,12 @@
   cursor: pointer;
   line-height: 1;
 }
-
 .yolo-logo-popup {
   height: 50px;
   width: auto;
   margin-bottom: 15px;
   object-fit: contain;
 }
-
 .yolo-title {
   color: #fbb03b;
   font-size: 26px;
@@ -62,8 +51,6 @@
   text-transform: uppercase;
   margin: 0 0 25px 0;
 }
-
-/* Input Fields Styling */
 .yolo-card input {
   width: 100%;
   height: 50px;
@@ -77,14 +64,11 @@
   font-size: 15px;
   box-sizing: border-box;
 }
-
-/* UI FIX: STATIC PHONE ROW */
 .yolo-phone-row {
   display: flex;
   gap: 10px;
   margin-bottom: 12px;
 }
-
 .yolo-phone-prefix {
   height: 50px;
   width: 90px;
@@ -100,23 +84,6 @@
   flex-shrink: 0;
   letter-spacing: 0.5px;
 }
-
-.yolo-phone-row input {
-  margin-bottom: 0;
-}
-
-/* Username Status Text */
-#user-status {
-  font-size: 11px;
-  font-weight: 600;
-  display: block;
-  text-align: right;
-  margin-top: -8px;
-  margin-bottom: 12px;
-  padding-right: 4px;
-}
-
-/* Submit Button Styling */
 .yolo-btn-main {
   background: linear-gradient(90deg, #fbb03b, #ff8c00);
   color: #000;
@@ -132,25 +99,17 @@
   box-shadow: 0 4px 15px rgba(251, 176, 59, 0.25);
   transition: transform 0.2s;
 }
-
-.yolo-btn-main:hover {
-  transform: translateY(-2px);
+.yolo-resend-link {
+  background: #222;
+  border: 1px solid #fbb03b;
+  color: #fbb03b;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
-
-/* MOBILE RESPONSIVENESS */
-@media (max-width: 480px) {
-  .yolo-card {
-    padding: 30px 20px;
-  }
-  .yolo-title {
-    font-size: 22px;
-  }
-  .yolo-phone-prefix {
-    width: 80px;
-    font-size: 13px;
-  }
-}
-
 .yolo-footer-note {
   font-size: 11px;
   color: rgba(251, 176, 59, 0.7);
@@ -160,7 +119,6 @@
   text-transform: uppercase;
   animation: yolo-pulse 2s infinite;
 }
-
 @keyframes yolo-pulse {
   0% {
     opacity: 0.5;
