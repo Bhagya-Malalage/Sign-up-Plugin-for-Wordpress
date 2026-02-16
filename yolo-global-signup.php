@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Yolo Global OTP Signup
  * Description: Global registration overlay with OTP and AES encryption.
- * Version: 1.3
+ * Version: 1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -86,10 +86,10 @@ function yolo_handle_proxy() {
     ]);
 
     if (is_wp_error($response)) {
-        wp_send_json_error(['message' => 'Network error.']);
+        wp_send_json_error(['message' => 'Network error. Please try again.']);
     }
 
-    // Return the response exactly as received from backend
+    // Proxy returns the exact JSON body from the backend so JS can read the error message
     echo wp_remote_retrieve_body($response);
     wp_die();
 }

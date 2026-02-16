@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const timerContainer = document.getElementById("yolo-timer-container");
     const resendContainer = document.getElementById("yolo-resend-container");
 
+    // Reset UI: Hide resend button and restore timer text immediately
     if (resendContainer) resendContainer.style.display = "none";
     timerContainer.innerHTML = 'Time remaining: <span id="y-timer">70</span>s';
 
@@ -99,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 1000);
   }
 
-  // 2. Request OTP
+  // 2. Request OTP Logic (and Resend logic)
   async function requestOTP(buttonElement) {
     const mobile = document.getElementById("y-mobile").value.trim();
     if (mobile.length < 7) return alert("Please enter a valid mobile number.");
@@ -126,23 +127,14 @@ document.addEventListener("DOMContentLoaded", function () {
       if (data.success) {
         document.getElementById("step-1").style.display = "none";
         document.getElementById("step-2").style.display = "block";
-        startOtpTimer();
+        startOtpTimer(); // Restart timer and clean up "Expired" text
       } else {
-        const msg = (data.message || "").toLowerCase();
-        if (
-          msg.includes("exists") ||
-          msg.includes("registered") ||
-          msg.includes("already")
-        ) {
-          alert(
-            "This phone number is already registered. Please login or use a different number.",
-          );
-        } else {
-          alert(data.message || "Failed to send OTP.");
-        }
+        // FETCH SPECIFIC ERROR MESSAGE FROM NETWORK RESPONSE
+        const errorToShow = data.error || data.message || "OTP Request Failed";
+        alert(errorToShow);
       }
     } catch (e) {
-      alert("Network Error.");
+      alert("Network Error. Check your connection.");
     } finally {
       buttonElement.innerText = originalText;
       buttonElement.disabled = false;
@@ -157,19 +149,18 @@ document.addEventListener("DOMContentLoaded", function () {
   if (resendBtn)
     resendBtn.addEventListener("click", () => requestOTP(resendBtn));
 
-  // 3. FINAL SUBMIT
+  // 3. FINAL SUBMIT logic
   const submitBtn = document.getElementById("y-submit");
   if (submitBtn) {
     submitBtn.addEventListener("click", function () {
-      const otpVal = document.getElementById("y-otp").value.trim();
-      if (!otpVal) return alert("Please enter the OTP code.");
+      const otpCode = document.getElementById("y-otp").value.trim();
+      if (!otpCode) return alert("Please enter the OTP code.");
 
-      // STRICT PAYLOAD MATCHING DOCUMENTATION
       const payload = {
         userName: document.getElementById("y-user").value.trim(),
         phoneNumber: document.getElementById("y-mobile").value.trim(),
         password: document.getElementById("y-pass").value.trim(),
-        otpCode: otpVal,
+        otpCode: otpCode,
         phoneCountry: document.getElementById("y-country").value || "in",
         marketingSource: "",
         brandId: 31,
@@ -194,14 +185,13 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Registration Successful!");
             window.location.href = "https://www.yolo247.site/login";
           } else {
-            // Better alert for user
-            alert(
-              data.message ||
-                "Registration failed. Your OTP might be incorrect or expired.",
-            );
+            // FIX: Capture the specific 'error' field from your Network Tab JSON
+            const errorToShow =
+              data.error || data.message || "Registration failed. Check OTP.";
+            alert(errorToShow);
           }
         })
-        .catch(() => alert("Server error. Please try again."))
+        .catch(() => alert("Server error during registration."))
         .finally(() => {
           submitBtn.innerText = "SUBMIT";
           submitBtn.disabled = false;
